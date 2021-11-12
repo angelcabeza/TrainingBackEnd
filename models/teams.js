@@ -1,10 +1,11 @@
+const { ObjectId } = require('bson');
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
 // Here we say the how the data collection will look like
 var teamsSchema = new Schema({
-    id: Number,
+    id: ObjectId,
     name: String,
     logo: String,
     rank: Number,

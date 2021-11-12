@@ -43,9 +43,12 @@ router.route('/login').post(async (req,res) => {
 
         // Check if the user exists
         const user = await User.findOne({username:username})
-
+        console.log(username);
+        console.log(user);
+        //const a = await bcrypt.compare(password, user.password);
+        //console.log(a);
         // if the user exists and the password is correct
-        if (user && (await bcrypt.compare(password, user.password))){
+        if (user && (user.password == password)){
             const token = jwt.sign({
                 user: user
             }, 'secret', {expiresIn:'24'});

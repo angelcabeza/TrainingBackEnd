@@ -22,8 +22,8 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 const teamsRouter = require('./routes/api/teams');
 const userRouter = require('./routes/login');
 
-app.use('/users', userRouter);
-app.use('/api/',teamsRouter);
+app.use('/auth', userRouter);
+app.use('/api/teams/',teamsRouter);
 
 require('dns').lookup(require('os').hostname(), function(err,add,fam) {
     console.log('addr: ' + add);

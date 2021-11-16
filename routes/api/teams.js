@@ -2,7 +2,7 @@ const router = require('express').Router();
 let Teams = require('../../models/teams')
 const {verifyToken} = require('../../middleware/auth');
 
-router.route('/').get(async (req,res) => {
+router.get('/', verifyToken, async (req,res) => {
     try{
         console.log("COJO DATOS");
         const teams = await Teams.find();
@@ -12,7 +12,7 @@ router.route('/').get(async (req,res) => {
     }
 });
 
-router.route('/add').post(async (req,res) => {
+router.post('/add',verifyToken, async (req,res) => {
     try {
         const name = req.body.name;
         const logo = req.body.logo;
@@ -36,7 +36,7 @@ router.route('/add').post(async (req,res) => {
     }
 });
 
-router.route('/:id').delete( async (req,res) => {
+router.delete('/:id',verifyToken, async (req,res) => {
     try {
         console.log(req.params.id);
         await Teams.findByIdAndDelete(req.params.id);

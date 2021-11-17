@@ -4,7 +4,6 @@ const {verifyToken} = require('../../middleware/auth');
 
 router.get('/', verifyToken, async (req,res) => {
     try{
-        console.log("COJO DATOS");
         const teams = await Teams.find();
         res.json(teams)
     } catch (err) {
@@ -26,11 +25,8 @@ router.post('/add',verifyToken, async (req,res) => {
 
         const newTeam = new Teams({name,logo,rank,wins,ties,gamesplayed,goalsfor,goalsagansit,points});
 
-        console.log(newTeam);
         await newTeam.save()
         res.json(newTeam);
-        console.log("HE GUARDADO NEWTEAM");
-
     } catch (err) {
         res.status(400).json({err: err})
     }
@@ -45,5 +41,14 @@ router.delete('/:id',verifyToken, async (req,res) => {
         res.status(404).json({});
     }
 });
+
+router.get('/:name',verifyToken, async (req,res) => {
+    try{
+        const teams = await Teams.find({'name' : { '$regex' : req.params.name, '$options' : 'i' } });
+        res.json(teams);
+    } catch (e){
+        res.status(400).json('Error puta: ' + e);
+    }
+})
 
 module.exports = router;
